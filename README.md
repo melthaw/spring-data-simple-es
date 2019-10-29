@@ -3,9 +3,43 @@
 
 # Api Guide
 
+## Quick Start
+
+* Available annotations is under package `in.clouthink.daas.es6.annotation` 
+* Very useful helper class `in.clouthink.daas.es6.repository.EsTemplate` 
+* The core Interface is `in.clouthink.daas.es6.repository.EsCrudRepository`
+
+
+```java
+public interface EsCrudRepository<T extends MutableIdentityProvider<String>, R extends PageableSearchRequest> {
+
+    T getOne(String id);
+
+    Page<T> getAll(PageableSearchRequest pageableSearchRequest);
+
+    Page<T> getAll(PageableSearchRequest pageableSearchRequest, Fields fields);
+
+    Page<T> search(R searchRequest);
+
+    Page<T> search(R searchRequest, Fields fields);
+
+    String save(T record);
+
+    void saveBulk(T... records);
+
+    void update(String id, T record);
+
+    void delete(String id);
+
+}
+
+```
+
+
 ## Define Domain Model (Mapping to ES Index)
 
-> Available annotations is under package `in.clouthink.daas.es6.annotation` 
+
+For example:
 
 ```java
 @Index("daas_es6_http_request_events")
@@ -60,6 +94,7 @@ public class HttpRequestEvent implements MutableIdentityProvider<String> {
 
 ## Define the Repository 
 
+
 > Extends `EsCrudRepository` 
 
 ```java
@@ -83,7 +118,8 @@ public class HttpRequestEventRepositoryImpl
     protected SearchSourceBuilder buildSearchSource(HttpRequestEventSearchRequest request, Fields fields) {
         SearchSourceBuilder searchSourceBuilder = SearchSourceBuilderBuilder.build(request.resolvePageable(),
                                                                                            fields);
-        //place your implementation
+        //Place your implementation here.
+        //See module/test/src/main/java/in/clouthink/daas/es6/test/repository/impl/HttpRequestEventRepositoryImpl.java
         return searchSourceBuilder;
     }
 }    
@@ -103,8 +139,29 @@ daas.es6:
 
 * Setup Spring Application Configuration
 
-```
+```java
+@SpringBootApplication
+@EnableConfigurationProperties(Es6Properties.class)
+public class Es6TestApplication {
 
+    @Autowired
+    private Es6Properties es6Properties;
+
+    @Bean(destroyMethod = "close")
+    @ConditionalOnMissingBean(RestHighLevelClient.class)
+    public RestHighLevelClient client() {
+        return new RestHighLevelClient(
+                RestClient.builder(
+                        new HttpHost(es6Properties.getHost(),
+                                     es6Properties.getPort(),
+                                     es6Properties.getProto())));
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(new Object[]{Es6TestApplication.class}, args);
+    }
+
+}
 ```
 
 

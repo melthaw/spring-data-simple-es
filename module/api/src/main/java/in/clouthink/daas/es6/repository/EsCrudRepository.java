@@ -2,7 +2,6 @@ package in.clouthink.daas.es6.repository;
 
 import in.clouthink.daas.es6.model.MutableIdentityProvider;
 import in.clouthink.daas.es6.repository.page.PageableSearchRequest;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.data.domain.Page;
 
 public interface EsCrudRepository<T extends MutableIdentityProvider<String>, R extends PageableSearchRequest> {
