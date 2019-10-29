@@ -1,6 +1,25 @@
+# Introduction
 
 > Simple Es6 Api with Spring Data Style
 
+
+# Dependencies
+
+* org.elasticsearch:elasticsearch:6.7.2
+* org.elasticsearch.client:elasticsearch-rest-high-level-client:6.7.2
+* org.elasticsearch.client:elasticsearch-rest-client:6.7.2
+* org.elasticsearch.client:elasticsearch-rest-client-sniffer:6.7.2
+
+# Latest Release
+
+So far the following version is available 
+
+
+|module name | latest version |
+|---|---|
+| daas-es6-api | [1.0.0](https://mvnrepository.com/artifact/in.clouthink.daas/daas-es6-api/1.0.0)
+
+> And 2.0.0 is deprecated.  
 # Api Guide
 
 ## Quick Start
