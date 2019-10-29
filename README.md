@@ -19,7 +19,7 @@ So far the following version is available
 |---|---|
 | daas-es6-api | [1.0.0](https://mvnrepository.com/artifact/in.clouthink.daas/daas-es6-api/1.0.0)
 
-> And 2.0.0 is deprecated.  
+  
 # Api Guide
 
 ## Quick Start
