@@ -1,10 +1,9 @@
 daas.es6:
   autoCreateIndex: ${ES_AUTO_CREATE_INDEX:true}
-  autoMockAuditData: ${ES_AUTO_MOCK_DATA:false}
   host: ${ES_HOST:127.0.0.1}
   port: ${ES_PORT:9200}
   proto: ${ES_PROTO:http}
 
 spring:
   profiles:
-    active: suites
+    active: test

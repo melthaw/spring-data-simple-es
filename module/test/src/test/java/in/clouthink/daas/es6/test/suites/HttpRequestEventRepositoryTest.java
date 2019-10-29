@@ -1,5 +1,8 @@
 package in.clouthink.daas.es6.test.suites;
 
+import in.clouthink.daas.es6.annotation.Keyword;
+import in.clouthink.daas.es6.repository.Fields;
+import in.clouthink.daas.es6.repository.page.DefaultPageableSearchRequest;
 import in.clouthink.daas.es6.test.common.AbstractTest;
 import in.clouthink.daas.es6.test.model.HttpRequestEvent;
 import in.clouthink.daas.es6.test.repository.HttpRequestEventRepository;
@@ -23,12 +26,11 @@ public class HttpRequestEventRepositoryTest extends AbstractTest {
     public void testHttpRequestEventRepo() {
         Page<HttpRequestEvent> eventPage = eventRepository.search(new DefaultHttpRequestEventSearchRequest());
         long totalElements = eventPage.getTotalElements();
-        System.out.println("HttpRequestEvent Total : " + totalElements);
 
         HttpRequestEvent newData = new HttpRequestEvent();
         newData.setRealm("daas-es6");
         newData.setRemoteAddr("mock-remote-addr");
-        newData.setRealIp("mock-real-ip");
+        newData.setRealIp("127.0.0.1");
         newData.setUserAgent("mock-user-agent");
         newData.setRequestMethod("GET");
         newData.setRequestBody("<mock-body/>");
@@ -66,6 +68,19 @@ public class HttpRequestEventRepositoryTest extends AbstractTest {
         }
 
         eventPage = eventRepository.search(new DefaultHttpRequestEventSearchRequest());
+        Assert.assertEquals(totalElements + 1, eventPage.getTotalElements());
+
+        eventPage = eventRepository.getAll(new DefaultPageableSearchRequest());
+
+        Assert.assertEquals(totalElements + 1, eventPage.getTotalElements());
+
+
+        //Now test search with fields specified
+        eventPage = eventRepository.getAll(new DefaultPageableSearchRequest(),
+                                           Fields.empty()
+                                                 .includes("username", "responseStatus", "responseBody")
+                                                 .excludes("responseBody"));
+
         Assert.assertEquals(totalElements + 1, eventPage.getTotalElements());
     }
 

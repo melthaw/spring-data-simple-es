@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-@Service("httpRequestAuditRepository")
+@Service("httpRequestEventRepository")
 public class HttpRequestEventRepositoryImpl
         extends SimpleEsCrudRepository<HttpRequestEvent, HttpRequestEventSearchRequest>
         implements HttpRequestEventRepository {

@@ -7,8 +7,6 @@ public class Es6Properties {
 
     private boolean autoCreateIndex = false;
 
-    private boolean autoMockAuditData = false;
-
     private String host = "localhost";
 
     private int port = 9200;
@@ -21,14 +19,6 @@ public class Es6Properties {
 
     public void setAutoCreateIndex(boolean autoCreateIndex) {
         this.autoCreateIndex = autoCreateIndex;
-    }
-
-    public boolean isAutoMockAuditData() {
-        return autoMockAuditData;
-    }
-
-    public void setAutoMockAuditData(boolean autoMockAuditData) {
-        this.autoMockAuditData = autoMockAuditData;
     }
 
     public String getProto() {
