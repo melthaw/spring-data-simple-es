@@ -6,7 +6,7 @@
 
     <groupId>in.clouthink.daas</groupId>
     <artifactId>daas-es6</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>daas-es6</name>
     <packaging>pom</packaging>
     <url>http://clouthink.in</url>
@@ -34,7 +34,7 @@
 
     <modules>
         <module>module/api</module>
-        <module>module/test</module>
+<!--        <module>module/test</module>-->
     </modules>
 
     <properties>
