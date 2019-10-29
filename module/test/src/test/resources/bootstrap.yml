@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: es6-suites
+
+logging:
+  level:
+    root: ${LOG_LEVEL_ROOT:INFO}
+    org.elasticsearch.client: ${LOG_LEVEL_ES:DEBUG}

@@ -1,0 +1,22 @@
+##################################################################
+#
+# The minimum env prepared if the mes is started in IDE outside the docker.
+#
+###################################################################
+version: '3'
+services:
+
+  elasticsearch:
+    container_name: elasticsearch
+    image: elasticsearch:6.7.2
+    ports:
+      - "9300:9300"
+      - "9200:9200"
+
+  elastichq:
+    container_name: elastichq
+    image: elastichq/elasticsearch-hq
+    links:
+      - "elasticsearch:elasticsearch"
+    ports:
+      - "5000:5000"
