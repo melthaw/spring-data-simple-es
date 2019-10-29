@@ -5,10 +5,11 @@ import in.clouthink.daas.es6.exception.Catching;
 import in.clouthink.daas.es6.exception.DataNotFoundException;
 import in.clouthink.daas.es6.exception.IncorrectResultSizeDataAccessException;
 import in.clouthink.daas.es6.model.MutableIdentityProvider;
-import in.clouthink.daas.es6.repository.metadata.IndexMetadata;
 import in.clouthink.daas.es6.repository.EsCrudRepository;
 import in.clouthink.daas.es6.repository.EsTemplate;
 import in.clouthink.daas.es6.repository.Fields;
+import in.clouthink.daas.es6.repository.SearchSourceBuilderBuilder;
+import in.clouthink.daas.es6.repository.metadata.IndexMetadata;
 import in.clouthink.daas.es6.repository.metadata.IndexMetadataParser;
 import in.clouthink.daas.es6.repository.page.PageableSearchRequest;
 import org.apache.commons.logging.Log;
@@ -31,14 +32,10 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.util.StringUtils;
 
-import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
@@ -210,7 +207,10 @@ public abstract class SimpleEsCrudRepository<T extends MutableIdentityProvider<S
     }
 
     protected Page<T> doSearch(R request, Fields fields) throws Exception {
-        SearchResponse searchResponse = searchByTemplate(request, fields);
+        SearchRequest searchRequest = new SearchRequest(getEsIndex());
+        SearchSourceBuilder searchSourceBuilder = buildSearchSource(request, fields);
+        searchRequest.source(searchSourceBuilder);
+        SearchResponse searchResponse = getRestHighLevelClient().search(searchRequest, getRequestOptions());
 
         SearchHits searchResponseHits = searchResponse.getHits();
         List<T> searchResultList = convertEsResult(searchResponseHits);
@@ -229,47 +229,33 @@ public abstract class SimpleEsCrudRepository<T extends MutableIdentityProvider<S
     }
 
     protected Page<T> doGetAll(PageableSearchRequest request, Fields fields) throws Exception {
+        //handle search
         SearchRequest searchRequest = new SearchRequest(getEsIndex());
 
-        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-
         Pageable pageable = request.resolvePageable();
-        searchSourceBuilder.from(pageable.getOffset());
-        searchSourceBuilder.size(request.getSize());
-
-        if (!StringUtils.isEmpty(request.getSortBy())) {
-            searchSourceBuilder.sort(request.getSortBy(),
-                                     request.getSortDirection() == Sort.Direction.ASC ? SortOrder.ASC : SortOrder.DESC);
-        }
-
-        if (fields != null && !fields.isEmpty()) {
-            searchSourceBuilder.fetchSource(fields.getIncludedFields(), fields.getExcludedFields());
-        }
-
+        SearchSourceBuilder searchSourceBuilder = SearchSourceBuilderBuilder.build(request.resolvePageable(),
+                                                                                   fields);
         searchSourceBuilder.query(QueryBuilders.matchAllQuery());
         searchRequest.source(searchSourceBuilder);
 
         SearchResponse searchResponse = getRestHighLevelClient().search(searchRequest, getRequestOptions());
 
+        //handle result
         SearchHits searchResponseHits = searchResponse.getHits();
         List<T> searchResultList = convertEsResult(searchResponseHits);
 
         return new PageImpl<>(searchResultList, pageable, searchResponseHits.totalHits);
     }
 
-    @Override
-    public T getFirst(R searchRequest) {
-        return Catching.around(() -> doGetFirst(searchRequest, Fields.empty()));
+    public T getFirst(SearchSourceBuilder searchSourceBuilder) {
+        return Catching.around(() -> doGetFirst(searchSourceBuilder));
     }
 
-    @Override
-    public T getFirst(R searchRequest, Fields fields) {
-        return Catching.around(() -> doGetFirst(searchRequest, fields));
-    }
-
-    protected T doGetFirst(R request, Fields fields) throws Exception {
+    protected T doGetFirst(SearchSourceBuilder searchSourceBuilder) throws Exception {
         //handle search
-        SearchResponse searchResponse = searchByTemplate(request, fields);
+        SearchRequest searchRequest = new SearchRequest(getEsIndex());
+        searchRequest.source(searchSourceBuilder);
+        SearchResponse searchResponse = getRestHighLevelClient().search(searchRequest, getRequestOptions());
 
         //handle result
         SearchHits searchResponseHits = searchResponse.getHits();
@@ -283,19 +269,15 @@ public abstract class SimpleEsCrudRepository<T extends MutableIdentityProvider<S
         return result;
     }
 
-    @Override
-    public T getOne(R searchRequest) {
-        return Catching.around(() -> doGetOne(searchRequest, Fields.empty()));
+    public T getOne(SearchSourceBuilder searchSourceBuilder) {
+        return Catching.around(() -> doGetOne(searchSourceBuilder));
     }
 
-    @Override
-    public T getOne(R searchRequest, Fields fields) {
-        return Catching.around(() -> doGetOne(searchRequest, fields));
-    }
-
-    protected T doGetOne(R request, Fields fields) throws Exception {
+    protected T doGetOne(SearchSourceBuilder searchSourceBuilder) throws Exception {
         //handle search
-        SearchResponse searchResponse = searchByTemplate(request, fields);
+        SearchRequest searchRequest = new SearchRequest(getEsIndex());
+        searchRequest.source(searchSourceBuilder);
+        SearchResponse searchResponse = getRestHighLevelClient().search(searchRequest, getRequestOptions());
 
         //handle result
         SearchHits searchResponseHits = searchResponse.getHits();
@@ -303,6 +285,7 @@ public abstract class SimpleEsCrudRepository<T extends MutableIdentityProvider<S
             return null;
         }
 
+        //only 1 record expected
         if (searchResponseHits.getTotalHits() > 1) {
             throw new IncorrectResultSizeDataAccessException(1, searchResponseHits.getTotalHits());
         }
@@ -311,16 +294,6 @@ public abstract class SimpleEsCrudRepository<T extends MutableIdentityProvider<S
         T result = getObjectMapper().convertValue(searchHit.getSourceAsMap(), getJavaType());
         result.setId(searchHit.getId());
         return result;
-    }
-
-    protected SearchResponse searchByTemplate(R request, Fields fields) throws IOException {
-        SearchRequest searchRequest = new SearchRequest(getEsIndex());
-        SearchSourceBuilder searchSourceBuilder = build(request);
-        if (fields != null && !fields.isEmpty()) {
-            searchSourceBuilder.fetchSource(fields.getIncludedFields(), fields.getExcludedFields());
-        }
-        searchRequest.source(searchSourceBuilder);
-        return getRestHighLevelClient().search(searchRequest, getRequestOptions());
     }
 
     protected List<T> convertEsResult(SearchHits searchHits) {
@@ -339,6 +312,16 @@ public abstract class SimpleEsCrudRepository<T extends MutableIdentityProvider<S
         return searchResultList;
     }
 
-    protected abstract SearchSourceBuilder build(R request);
+    /**
+     * By default , only handle the pageable part
+     *
+     * @param request
+     * @param fields
+     * @return
+     */
+    protected SearchSourceBuilder buildSearchSource(R request, Fields fields) {
+        return SearchSourceBuilderBuilder.build(request.resolvePageable(),
+                                                fields);
+    }
 
 }

@@ -1,6 +1,8 @@
 package in.clouthink.daas.es6.test.repository.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import in.clouthink.daas.es6.repository.Fields;
+import in.clouthink.daas.es6.repository.SearchSourceBuilderBuilder;
 import in.clouthink.daas.es6.repository.impl.SimpleEsCrudRepository;
 import in.clouthink.daas.es6.test.model.HttpRequestEvent;
 import in.clouthink.daas.es6.test.repository.HttpRequestEventRepository;
@@ -9,8 +11,6 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.sort.SortOrder;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -24,12 +24,9 @@ public class HttpRequestEventRepositoryImpl
     }
 
     @Override
-    protected SearchSourceBuilder build(HttpRequestEventSearchRequest request) {
-        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-
-        Pageable pageable = request.resolvePageable();
-        searchSourceBuilder.from(pageable.getOffset());
-        searchSourceBuilder.size(request.getSize());
+    protected SearchSourceBuilder buildSearchSource(HttpRequestEventSearchRequest request, Fields fields) {
+        SearchSourceBuilder searchSourceBuilder = SearchSourceBuilderBuilder.build(request.resolvePageable(),
+                                                                                   fields);
 
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         if (!StringUtils.isEmpty(request.getRealm())) {
@@ -45,9 +42,7 @@ public class HttpRequestEventRepositoryImpl
             boolQueryBuilder.must(QueryBuilders.termQuery("remoteAddr", request.getRemoteAddr()));
         }
 
-        SearchSourceBuilder result = searchSourceBuilder.query(boolQueryBuilder);
-        result.sort("requestAt", SortOrder.DESC);
-        return result;
+        return searchSourceBuilder.query(boolQueryBuilder);
     }
 
 }

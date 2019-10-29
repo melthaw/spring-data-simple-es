@@ -6,4 +6,5 @@ import in.clouthink.daas.es6.test.model.HttpRequestEvent;
 import in.clouthink.daas.es6.test.request.HttpRequestEventSearchRequest;
 
 public interface HttpRequestEventRepository extends EsCrudRepository<HttpRequestEvent, HttpRequestEventSearchRequest> {
+
 }

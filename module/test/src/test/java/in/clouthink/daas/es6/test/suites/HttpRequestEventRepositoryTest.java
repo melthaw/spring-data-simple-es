@@ -1,6 +1,5 @@
 package in.clouthink.daas.es6.test.suites;
 
-import in.clouthink.daas.es6.annotation.Keyword;
 import in.clouthink.daas.es6.repository.Fields;
 import in.clouthink.daas.es6.repository.page.DefaultPageableSearchRequest;
 import in.clouthink.daas.es6.test.common.AbstractTest;
@@ -71,16 +70,13 @@ public class HttpRequestEventRepositoryTest extends AbstractTest {
         Assert.assertEquals(totalElements + 1, eventPage.getTotalElements());
 
         eventPage = eventRepository.getAll(new DefaultPageableSearchRequest());
-
         Assert.assertEquals(totalElements + 1, eventPage.getTotalElements());
-
 
         //Now test search with fields specified
         eventPage = eventRepository.getAll(new DefaultPageableSearchRequest(),
                                            Fields.empty()
                                                  .includes("username", "responseStatus", "responseBody")
                                                  .excludes("responseBody"));
-
         Assert.assertEquals(totalElements + 1, eventPage.getTotalElements());
     }
 
