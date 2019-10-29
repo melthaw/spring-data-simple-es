@@ -1,6 +1,6 @@
 # Introduction
 
-> Simple Es6 Api with Spring Data Style
+> Simple ES6 Api with Spring Data Style
 
 
 # Dependencies
@@ -14,10 +14,9 @@
 
 So far the following version is available 
 
-
-|module name | latest version |
-|---|---|
-| daas-es6-api | [1.0.0](https://mvnrepository.com/artifact/in.clouthink.daas/daas-es6-api/1.0.0)
+| group id |artifact id | latest version |
+|---|---|---|
+| in.clouthink.daas | daas-es6-api | [1.0.0](https://mvnrepository.com/artifact/in.clouthink.daas/daas-es6-api/1.0.0)
 
   
 # Api Guide
