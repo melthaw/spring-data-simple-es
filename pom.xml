@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>in.clouthink.daas</groupId>
-    <artifactId>daas-es6</artifactId>
-    <version>1.0.1</version>
-    <name>daas-es6</name>
+    <artifactId>daas-es</artifactId>
+    <version>1.0.2</version>
+    <name>daas-es</name>
     <packaging>pom</packaging>
     <url>http://clouthink.in</url>
     <description>The Simple ES6 Api with Spring Data Style.</description>
@@ -27,14 +27,17 @@
     </developers>
 
     <scm>
-        <connection>scm:git://git.coding.net/melthaw/spring-data-simple-es6.git</connection>
-        <developerConnection>scm:git://git.coding.net/melthaw/spring-data-simple-es6.git</developerConnection>
-        <url>git://git.coding.net/melthaw/spring-data-simple-es6.git</url>
+        <connection>scm:git://git.coding.net/melthaw/spring-data-simple-es.git</connection>
+        <developerConnection>scm:git://git.coding.net/melthaw/spring-data-simple-es.git</developerConnection>
+        <url>git://git.coding.net/melthaw/spring-data-simple-es.git</url>
     </scm>
 
     <modules>
         <module>module/api</module>
-        <module>module/test</module>
+        <module>module/es6-impl</module>
+        <module>module/es7-impl</module>
+        <module>module/es6-test</module>
+        <module>module/es7-test</module>
     </modules>
 
     <properties>

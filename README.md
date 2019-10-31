@@ -16,16 +16,16 @@ So far the following version is available
 
 | group id |artifact id | latest version |
 |---|---|---|
-| in.clouthink.daas | daas-es6-api | [1.0.1](https://mvnrepository.com/artifact/in.clouthink.daas/daas-es6-api/1.0.1)
+| in.clouthink.daas | daas-es-api | [1.0.1](https://mvnrepository.com/artifact/in.clouthink.daas/daas-es-api/1.0.1)
 
   
 # Api Guide
 
 ## Quick Start
 
-* Available annotations is under package `in.clouthink.daas.es6.annotation` 
-* Very useful helper class `in.clouthink.daas.es6.repository.EsTemplate` 
-* The core Interface is `in.clouthink.daas.es6.repository.EsCrudRepository`
+* Available annotations is under package `in.clouthink.daas.es.annotation` 
+* Very useful helper class `in.clouthink.daas.es.repository.EsTemplate` 
+* The core Interface is `in.clouthink.daas.es.repository.EsCrudRepository`
 
 
 ```java

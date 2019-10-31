@@ -11,10 +11,10 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>daas-es-api</artifactId>
+    <artifactId>daas-es-6</artifactId>
     <version>1.0.2</version>
     <packaging>jar</packaging>
-    <name>daas-es-api</name>
+    <name>daas-es-6</name>
 
     <licenses>
         <license>
@@ -45,9 +45,16 @@
         <java.version>1.8</java.version>
         <jackson.version>2.9.10</jackson.version>
         <spring.version>4.3.24.RELEASE</spring.version>
+        <elasticsearch.version>6.7.2</elasticsearch.version>
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>daas-es-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
@@ -78,6 +85,27 @@
             <artifactId>spring-boot</artifactId>
             <version>1.5.21.RELEASE</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-client</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-client-sniffer</artifactId>
+            <version>${elasticsearch.version}</version>
         </dependency>
 
         <dependency>
