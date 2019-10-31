@@ -36,8 +36,8 @@
         <module>module/api</module>
         <module>module/es6-impl</module>
         <module>module/es7-impl</module>
-        <module>module/es6-test</module>
-        <module>module/es7-test</module>
+<!--        <module>module/es6-test</module>-->
+<!--        <module>module/es7-test</module>-->
     </modules>
 
     <properties>

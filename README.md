@@ -1,14 +1,64 @@
 # Introduction
 
-> Simple ES6 Api with Spring Data Style
+> Spring Data Style Simplified ElasticSearch Api with ElasticSearch6 and ElasticSearch7 compatibility.
 
 
-# Dependencies
+# ElasticSearch version compatibility
 
-* org.elasticsearch:elasticsearch:6.7.2
-* org.elasticsearch.client:elasticsearch-rest-high-level-client:6.7.2
-* org.elasticsearch.client:elasticsearch-rest-client:6.7.2
-* org.elasticsearch.client:elasticsearch-rest-client-sniffer:6.7.2
+Now ElasticSearch6 and ElasticSearch7 are supported , but you need choose the corresponding version by manual.
+
+**ElasticSearch6**
+
+```xml
+
+	<dependency>
+		<groupId>in.clouthink.daas</groupId>
+		<artifactId>daas-es-api</artifactId>
+		<version>1.0.2</version>
+	</dependency>
+	
+
+	<dependency>
+		<groupId>in.clouthink.daas</groupId>
+		<artifactId>daas-es-6</artifactId>
+		<version>1.0.2</version>
+	</dependency>
+
+```
+
+And the elasticsearch java client v6 will be imported automatically.
+
+> * org.elasticsearch:elasticsearch:6.7.2
+> * org.elasticsearch.client:elasticsearch-rest-high-level-client:6.7.2
+> * org.elasticsearch.client:elasticsearch-rest-client:6.7.2
+> * org.elasticsearch.client:elasticsearch-rest-client-sniffer:6.7.2
+
+
+**ElasticSearch7**
+
+```xml
+
+	<dependency>
+		<groupId>in.clouthink.daas</groupId>
+		<artifactId>daas-es-api</artifactId>
+		<version>1.0.2</version>
+	</dependency>
+
+	<dependency>
+		<groupId>in.clouthink.daas</groupId>
+		<artifactId>daas-es-7</artifactId>
+		<version>1.0.2</version>
+	</dependency>
+
+```
+
+And the elasticsearch java client v7 will be imported automatically.
+
+> * org.elasticsearch:elasticsearch:7.2.1
+> * org.elasticsearch.client:elasticsearch-rest-high-level-client:7.2.1
+> * org.elasticsearch.client:elasticsearch-rest-client:7.2.1
+> * org.elasticsearch.client:elasticsearch-rest-client-sniffer:7.2.1
+
 
 # Latest Release
 
@@ -16,7 +66,9 @@ So far the following version is available
 
 | group id |artifact id | latest version |
 |---|---|---|
-| in.clouthink.daas | daas-es-api | [1.0.1](https://mvnrepository.com/artifact/in.clouthink.daas/daas-es-api/1.0.1)
+| in.clouthink.daas | daas-es-api | [1.0.2](https://mvnrepository.com/artifact/in.clouthink.daas/daas-es-api/1.0.2)
+| in.clouthink.daas | daas-es-6 | [1.0.2](https://mvnrepository.com/artifact/in.clouthink.daas/daas-es-6/1.0.2)
+| in.clouthink.daas | daas-es-7 | [1.0.2](https://mvnrepository.com/artifact/in.clouthink.daas/daas-es-7/1.0.2)
 
   
 # Api Guide
@@ -54,7 +106,7 @@ public interface EsCrudRepository<T extends MutableIdentityProvider<String>, R e
 ```
 
 
-## Define Domain Model (Mapping to ES Index)
+## Define Domain Model (Mapping to ElasticSearch Index)
 
 
 For example:
