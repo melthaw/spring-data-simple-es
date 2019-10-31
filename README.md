@@ -258,3 +258,23 @@ mvn -pl module/api clean package
 # or
 mvn --projects module/api clean package
 ```
+
+
+* es6
+
+```shell
+mvn -pl module/es6-impl clean package
+# or
+mvn --projects module/es6-impl clean package
+```
+
+
+
+* es7
+
+```shell
+mvn -pl module/es7-impl clean package
+# or
+mvn --projects module/es7-impl clean package
+```
+
