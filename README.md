@@ -66,9 +66,9 @@ So far the following version is available
 
 | group id |artifact id | latest version |
 |---|---|---|
-| in.clouthink.daas | daas-es-api | [1.0.2](https://mvnrepository.com/artifact/in.clouthink.daas/daas-es-api/1.0.2)
-| in.clouthink.daas | daas-es-6 | [1.0.2](https://mvnrepository.com/artifact/in.clouthink.daas/daas-es-6/1.0.2)
-| in.clouthink.daas | daas-es-7 | [1.0.2](https://mvnrepository.com/artifact/in.clouthink.daas/daas-es-7/1.0.2)
+| in.clouthink.daas | daas-es-api | [1.0.2](https://repo1.maven.org/maven2/in/clouthink/daas/daas-es-api/)
+| in.clouthink.daas | daas-es-6 | [1.0.2](https://repo1.maven.org/maven2/in/clouthink/daas/daas-es-6/)
+| in.clouthink.daas | daas-es-7 | [1.0.2](https://repo1.maven.org/maven2/in/clouthink/daas/daas-es-7/)
 
   
 # Api Guide
